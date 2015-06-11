@@ -11,7 +11,7 @@ class OrganizationRepositorySpec extends ObjectBehavior
 {
     function let( Connection $db)
     {
-        $db->insert("organization", ["name" => "abc"])->willReturn(1);
+        $db->insert("organizations", ["name" => "abc"])->willReturn(1);
         $this->beConstructedWith($db);
     }
 
