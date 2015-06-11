@@ -1,6 +1,9 @@
 machine:
   php:
     version: 5.6.5
+dependencies:
+  post:
+    - ./vendor/bin/phinx migrate -e circleci
 test:
   override:
     - ./vendor/bin/phpspec run

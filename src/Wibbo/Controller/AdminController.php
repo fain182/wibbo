@@ -2,6 +2,10 @@
 
 namespace Wibbo\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Wibbo\Entity\Organization;
+use Wibbo\Repository\OrganizationRepository;
+
 class AdminController
 {
     public function __construct($app)
@@ -13,7 +17,13 @@ class AdminController
     {
         $admin = $this->app['controllers_factory'];
         $admin->get('/', function () {
-            return 'Admin';
+            return '<form action="organizations" method="post"><input name="name"></form>';
+        });
+
+        $admin->post('/organizations', function(Request $request) {
+            $organizations = new OrganizationRepository($this->app['db']);
+            $organizations->add(new Organization($request->request->get('name')));
+            return "Organization added.";
         });
 
         return $admin;

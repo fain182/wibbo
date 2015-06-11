@@ -1,0 +1,32 @@
+paths:
+    migrations: %%PHINX_CONFIG_DIR%%/migrations
+
+environments:
+    default_migration_table: phinxlog
+    default_database: development
+    production:
+        adapter: pgsql
+        host: ec2-54-228-180-92.eu-west-1.compute.amazonaws.com
+        name: d90j5613knotae
+        user: %%PHINX_DBUSER%%
+        pass: %%PHINX_DBPASSWORD%%
+        port: 5432
+        charset: utf8
+
+    development:
+        adapter: pgsql
+        host: localhost
+        name: wibbo
+        user: local
+        pass: local
+        port: 5432
+        charset: utf8
+
+    circleci:
+        adapter: pgsql
+        host: localhost
+        name: circle_test
+        user: ubuntu
+        pass:
+        port: 5432
+        charset: utf8

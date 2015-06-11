@@ -3,6 +3,7 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 $app = new Silex\Application();
+$app['debug'] = true;
 
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     'security.firewalls' =>  array(
@@ -14,6 +15,30 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             ),
         ),
     )
+));
+
+$defaultDbConfiguration = array(
+    'driver'    => 'pdo_pgsql',
+    'host'      => 'localhost',
+    'dbname'    => 'wibbo',
+    'user'      => 'local',
+    'password'  => 'local',
+    'charset'   => 'utf8',
+);
+
+$dbUrl = getenv("DATABASE_URL");
+
+$isOnHeroku = !empty($dbUrl);
+
+if ($isOnHeroku) {
+    $dbUrl = parse_url($dbUrl);
+    $defaultDbConfiguration['host'] = $dbUrl['host'];
+    $defaultDbConfiguration['user'] = $dbUrl['user'];
+    $defaultDbConfiguration['password'] = $dbUrl['pass'];
+    $defaultDbConfiguration['dbname'] = substr($dbUrl['path'],1);
+}
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+  'db.options' => $defaultDbConfiguration,
 ));
 
 
