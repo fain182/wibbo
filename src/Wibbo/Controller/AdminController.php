@@ -15,6 +15,8 @@ class AdminController
         $admin->get('/', function () {
             return 'Admin';
         });
+
         return $admin;
     }
+
 }
