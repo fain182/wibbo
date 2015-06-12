@@ -17,7 +17,7 @@ class AdminController
     {
         $admin = $this->app['controllers_factory'];
         $admin->get('/', function () {
-            return '<form action="organizations" method="post"><input name="name"></form>';
+            return $this->app['twig']->render('admin/index.twig');
         });
 
         $admin->post('/organizations', function(Request $request) {
