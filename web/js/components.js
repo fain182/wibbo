@@ -42,7 +42,7 @@ var OrganizationList = React.createClass({
     }
 });
 
-var OrganizationAdmin = React.createClass({
+var OrganizationBox = React.createClass({
     getInitialState: function() {
         return {message: '', organizations: []};
     },
@@ -78,7 +78,12 @@ var OrganizationAdmin = React.createClass({
     render: function () {
         return (
             <span>
-                <AddOrganizationForm onFormSubmit={this.handleSubmit} message={this.state.message}/>
+                {
+                    this.props.withForm == "true"
+                    ? <AddOrganizationForm onFormSubmit={this.handleSubmit} message={this.state.message}/>
+                    : null
+                }
+
                 <OrganizationList data={this.state.organizations} />
             </span>
         )
@@ -86,7 +91,4 @@ var OrganizationAdmin = React.createClass({
 });
 
 
-React.render(
-    <OrganizationAdmin />,
-    document.getElementById('content')
-);
+

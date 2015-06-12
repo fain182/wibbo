@@ -59,4 +59,7 @@ $app->mount('/organizations', $organizationController->build());
 $adminController = new \Wibbo\Controller\AdminController($app);
 $app->mount('/admin', $adminController->build());
 
+$frontendController = new \Wibbo\Controller\FrontendController($app);
+$app->mount('/', $frontendController->build());
+
 return $app;
