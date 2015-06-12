@@ -13,6 +13,7 @@ class OrganizationRepositorySpec extends ObjectBehavior
     {
         $db->insert("organizations", ["name" => "abc"])->willReturn(1);
         $db->fetchAll('SELECT * FROM organizations')->willReturn([ ['id'=>1, 'name'=>'abc'] ]);
+        $db->delete("organizations", ["id" => 1])->willReturn(1);
 
         $this->beConstructedWith($db);
     }
@@ -31,6 +32,11 @@ class OrganizationRepositorySpec extends ObjectBehavior
     function it_can_retrieve_all_organizations()
     {
         $this->getAll()->shouldBeLike([new Organization('abc')]);
+    }
+
+    function it_can_delete_organizations()
+    {
+        $this->deleteById(1)->shouldReturn(true);
     }
 
 }

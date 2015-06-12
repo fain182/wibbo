@@ -27,6 +27,12 @@ class AdminController
             return "Organization added.";
         });
 
+        $controller->delete('/organizations/{organizationId}', function($organizationId) {
+            $organizationRepository = new OrganizationRepository($this->app['db']);
+            $organizationRepository->deleteById($organizationId);
+            return "Organization deleted.";
+        });
+
         return $controller;
     }
 

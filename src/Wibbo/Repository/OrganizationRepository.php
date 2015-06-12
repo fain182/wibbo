@@ -29,4 +29,10 @@ class OrganizationRepository
         );
         return $organizations;
     }
+
+    public function deleteById($id)
+    {
+        $affectedRows = $this->db->delete('organizations', array('id' => $id));
+        return $affectedRows == 1;
+    }
 }
