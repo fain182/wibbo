@@ -4,6 +4,7 @@ namespace spec\Wibbo\Entity;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Wibbo\Entity\Organization;
 
 class OrganizationSpec extends ObjectBehavior
 {
@@ -22,4 +23,8 @@ class OrganizationSpec extends ObjectBehavior
         $this->getName()->shouldReturn('nome');
     }
 
+    function it_can_be_generated_from_a_row()
+    {
+        $this::fromRow(['name'=>'abc'])->shouldBeLike(new Organization('abc'));
+    }
 }

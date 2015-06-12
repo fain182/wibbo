@@ -12,6 +12,8 @@ class OrganizationRepositorySpec extends ObjectBehavior
     function let( Connection $db)
     {
         $db->insert("organizations", ["name" => "abc"])->willReturn(1);
+        $db->fetchAll('SELECT * FROM organizations')->willReturn([ ['id'=>1, 'name'=>'abc'] ]);
+
         $this->beConstructedWith($db);
     }
 
@@ -25,4 +27,10 @@ class OrganizationRepositorySpec extends ObjectBehavior
         $organization = new Organization('abc');
         $this->add($organization)->shouldReturn(true);
     }
+
+    function it_can_retrieve_all_organizations()
+    {
+        $this->getAll()->shouldBeLike([new Organization('abc')]);
+    }
+
 }

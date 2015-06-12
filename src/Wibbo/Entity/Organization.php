@@ -4,7 +4,7 @@ namespace Wibbo\Entity;
 
 class Organization
 {
-    private $name;
+    public $name;
 
     public function __construct($name)
     {
@@ -14,5 +14,10 @@ class Organization
     public function getName()
     {
         return $this->name;
+    }
+
+    public static function fromRow($row)
+    {
+       return new Organization($row['name']);
     }
 }

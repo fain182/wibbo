@@ -45,6 +45,9 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path' => __DIR__.'/../views',
 ));
 
+$app->register(new Silex\Provider\SerializerServiceProvider());
+
+
 $app->get('/', function () use ($app) {
     return 'wibbo';
 });

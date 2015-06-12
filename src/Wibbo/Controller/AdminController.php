@@ -21,9 +21,20 @@ class AdminController
         });
 
         $admin->post('/organizations', function(Request $request) {
-            $organizations = new OrganizationRepository($this->app['db']);
-            $organizations->add(new Organization($request->request->get('name')));
+            $organizationRepository = new OrganizationRepository($this->app['db']);
+            $organizationRepository->add(new Organization($request->request->get('name')));
             return "Organization added.";
+        });
+
+        $admin->get('/organizations', function(Request $request) {
+            $organizationRepository = new OrganizationRepository($this->app['db']);
+            $organizations = $organizationRepository->getAll();
+            return $this->app->json($organizations);
+        /*    $serializedOrganizations = $this->app['serializer']->serialize($organizations, 'json');
+            return new JsonResponse($serializedOrganizations, 200, array(
+              "Content-Type" => $this->app['request']->getMimeType($format)
+            ));
+            return "Organization added."; */
         });
 
         return $admin;
