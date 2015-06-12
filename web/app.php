@@ -53,6 +53,9 @@ $app->get('/', function () use ($app) {
 });
 
 
+$organizationController = new \Wibbo\Controller\OrganizationsController($app);
+$app->mount('/organizations', $organizationController->build());
+
 $adminController = new \Wibbo\Controller\AdminController($app);
 $app->mount('/admin', $adminController->build());
 

@@ -51,7 +51,7 @@ var OrganizationAdmin = React.createClass({
     },
     fetchOrganizations: function () {
         $.ajax({
-            url: '/admin/organizations',
+            url: '/organizations',
             dataType: 'json',
             cache: false,
             success: function(data) {
