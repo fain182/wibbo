@@ -25,6 +25,8 @@ class OrganizationSpec extends ObjectBehavior
 
     function it_can_be_generated_from_a_row()
     {
-        $this::fromRow(['name'=>'abc'])->shouldBeLike(new Organization('abc'));
+        $row = ['id' => 1, 'name' => 'abc'];
+        $this::fromRow($row)->id->shouldBe(1);
+        $this::fromRow($row)->name->shouldBe('abc');
     }
 }

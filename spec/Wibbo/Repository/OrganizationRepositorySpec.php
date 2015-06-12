@@ -31,7 +31,7 @@ class OrganizationRepositorySpec extends ObjectBehavior
 
     function it_can_retrieve_all_organizations()
     {
-        $this->getAll()->shouldBeLike([new Organization('abc')]);
+        $this->getAll()->shouldBeLike([new Organization('abc', 1)]);
     }
 
     function it_can_delete_organizations()

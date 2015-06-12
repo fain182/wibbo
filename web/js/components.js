@@ -19,18 +19,37 @@ var AddOrganizationForm = React.createClass({
 });
 
 var Organization = React.createClass({
+    onRemove: function(e) {
+        this.props.onDelete(this.props.id);
+    },
     render: function() {
         return (
-            <div className="well">{this.props.name}</div>
+            <div className="well">
+                {
+                    this.props.readOnly == "true"
+                    ?
+                    <button onClick={this.onRemove} className="btn btn-default pull-right" style={{"marginTop":"-6px"}}>
+                        Remove
+                    </button>
+                    : null
+                }
+                {this.props.name}
+            </div>
         );
     }
 });
 
 var OrganizationList = React.createClass({
     render: function() {
-        var nodes = this.props.data.map(function (organization) {
+        var props = this.props;
+        var nodes = props.data.map(function (organization) {
             return (
-                <Organization name={organization.name}/>
+                <Organization
+                    name={organization.name}
+                    id={organization.id}
+                    onDelete={props.onDelete}
+                    readOnly={props.readOnly}
+                />
             );
         });
         return (
@@ -75,16 +94,25 @@ var OrganizationBox = React.createClass({
                 component.setState({message: 'Error'});
             });
     },
+    handleDelete: function(id) {
+        var component = this;
+        $.ajax({ url: "/admin/organizations/"+id, type: 'DELETE'})
+            .done(function() {
+                component.fetchOrganizations();
+            }).fail(function() {
+                alert("Cannot remove organization");
+            });
+    },
     render: function () {
         return (
             <span>
                 {
-                    this.props.withForm == "true"
+                    this.props.readOnly == "true"
                     ? <AddOrganizationForm onFormSubmit={this.handleSubmit} message={this.state.message}/>
                     : null
                 }
 
-                <OrganizationList data={this.state.organizations} />
+                <OrganizationList readOnly={this.props.readOnly} onDelete={this.handleDelete} data={this.state.organizations} />
             </span>
         )
     }
