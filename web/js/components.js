@@ -17,6 +17,40 @@ var AddOrganizationForm = React.createClass({
     }
 });
 
+var Status = React.createClass({
+    getInitialState: function() {
+        return {currentIncidents: []};
+    },
+    componentDidMount: function() {
+        this.fetchCurrentIncidents();
+    },
+    fetchCurrentIncidents: function() {
+        $.ajax({
+            url: '/organizations/'+this.props.id+'/incidents/now',
+            dataType: 'json',
+            cache: false,
+            success: function(data) {
+                this.setState({currentIncidents: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
+    },
+    render: function() {
+        return (
+            <span>
+            {
+                this.state.currentIncidents.length > 0
+                    ?
+                    <span className="label label-warning">{this.state.currentIncidents[0].description}</span>
+                    :
+                    <span className="label label-success">Everything is fine</span>
+            }
+            </span>
+        );
+    }
+});
 
 var Organization = React.createClass({
     onRemove: function(e) {
@@ -35,7 +69,8 @@ var Organization = React.createClass({
                         </button>
                         <IncidentControl organizationId={this.props.id} />
                         </span>
-                        : null
+                        :
+                        <Status id={this.props.id} />
                 }
 
             </div>
