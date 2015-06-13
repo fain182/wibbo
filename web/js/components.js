@@ -17,6 +17,7 @@ var AddOrganizationForm = React.createClass({
     }
 });
 
+
 var Organization = React.createClass({
     onRemove: function(e) {
         this.props.onDelete(this.props.id);
@@ -32,10 +33,7 @@ var Organization = React.createClass({
                         <button onClick={this.onRemove} className="btn btn-default pull-right">
                             Remove
                         </button>
-                        <form className="form-inline">
-                            <input className="form-control" type="text" placeholder="Incident description"/>
-                            <input type="submit" className="btn btn-danger" value="Start incident" />
-                        </form>
+                        <IncidentControl organizationId={this.props.id} />
                         </span>
                         : null
                 }
@@ -126,3 +124,51 @@ var OrganizationBox = React.createClass({
 
 
 
+var IncidentControl = React.createClass({
+    getInitialState: function() {
+        return {currentIncidents: []};
+    },
+    componentDidMount: function() {
+        this.fetchCurrentIncidents();
+    },
+    fetchCurrentIncidents: function() {
+        $.ajax({
+            url: '/organizations/'+this.props.organizationId+'/incidents/now',
+            dataType: 'json',
+            cache: false,
+            success: function(data) {
+                this.setState({currentIncidents: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
+    },
+    onIncidentStart: function(e) {
+        e.preventDefault();
+        var component = this;
+        var description = React.findDOMNode(this.refs.description).value;
+        $.post( "/admin/organizations/"+this.props.organizationId+"/incidents", {'description': description})
+            .done(function() {
+                component.fetchCurrentIncidents();
+            }).fail(function() {
+                alert("Oops, something went wrong...");
+            });
+    },
+    render: function() {
+        return (
+            <span>
+            {
+                this.state.currentIncidents.length > 0
+                ?
+                <span>Incident in progress</span>
+                :
+                <form onSubmit={this.onIncidentStart} className="form-inline">
+                    <input ref="description" className="form-control" type="text" placeholder="Incident description"/>
+                    <input type="submit" className="btn btn-danger" value="Start incident" />
+                </form>
+            }
+            </span>
+        );
+    }
+});

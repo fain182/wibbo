@@ -3,6 +3,7 @@
 namespace Wibbo\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Wibbo\Repository\IncidentRepository;
 use Wibbo\Repository\OrganizationRepository;
 
 
@@ -20,6 +21,12 @@ class OrganizationsController {
             $organizationRepository = new OrganizationRepository($this->app['db']);
             $organizations = $organizationRepository->getAll();
             return $this->app->json($organizations);
+        });
+
+        $controller->get('/{organizationId}/incidents/now', function($organizationId) {
+            $incidentRepository = new IncidentRepository($this->app['db']);
+            $incidents = $incidentRepository->getAllActiveNow($organizationId);
+            return $this->app->json($incidents);
         });
 
         return $controller;

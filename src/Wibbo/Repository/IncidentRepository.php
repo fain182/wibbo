@@ -20,4 +20,15 @@ class IncidentRepository
         $insertedRows = $this->db->insert('incidents', $row);
         return $insertedRows == 1;
     }
+
+    public function getAllActiveNow($organizationId)
+    {
+        $rows = $this->db->fetchAll('SELECT * FROM incidents where organization_id = ? and "end" is null', [$organizationId]);
+        $organizations = array_map(
+          function($row) { return Incident::fromRow($row); },
+          $rows
+        );
+        return $organizations;
+
+    }
 }

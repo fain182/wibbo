@@ -5,9 +5,9 @@ namespace Wibbo\Entity;
 class Incident
 {
 
-    private $organizationId;
-    private $description;
-    private $start;
+    public $organizationId;
+    public $description;
+    public $start;
 
     public function __construct($organizationId, $description, \DateTime $start = null)
     {
@@ -18,6 +18,11 @@ class Incident
         } else {
             $this->start = new \DateTime();
         }
+    }
+
+    public static function fromRow($row)
+    {
+        return new Incident($row['organization_id'], $row['description'], new \DateTime($row['start']));
     }
 
     public function getDescription()
