@@ -7,11 +7,10 @@ var AddOrganizationForm = React.createClass({
     },
     render: function() {
         return (
-            <form className="commentForm" onSubmit={this.handleSubmit}>
+            <form className="form-inline commentForm" onSubmit={this.handleSubmit}>
                 <h1>Add an Organization</h1>
                 <h3 ref="message">{this.props.message} </h3>
-                Organization name: <input ref="name"/>
-                <br />
+                Organization name: <input className="form-control" ref="name"/>
                 <input type="submit" value="Add" className="btn btn-primary" />
             </form>
         );
@@ -25,15 +24,22 @@ var Organization = React.createClass({
     render: function() {
         return (
             <div className="well">
+                <h4>{this.props.name} <small>id:{this.props.id}</small></h4>
                 {
                     this.props.readOnly == "true"
-                    ?
-                    <button onClick={this.onRemove} className="btn btn-default pull-right" style={{"marginTop":"-6px"}}>
-                        Remove
-                    </button>
-                    : null
+                        ?
+                        <span>
+                        <button onClick={this.onRemove} className="btn btn-default pull-right">
+                            Remove
+                        </button>
+                        <form className="form-inline">
+                            <input className="form-control" type="text" placeholder="Incident description"/>
+                            <input type="submit" className="btn btn-danger" value="Start incident" />
+                        </form>
+                        </span>
+                        : null
                 }
-                {this.props.name}
+
             </div>
         );
     }

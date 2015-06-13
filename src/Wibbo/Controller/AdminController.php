@@ -3,7 +3,9 @@
 namespace Wibbo\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Wibbo\Entity\Incident;
 use Wibbo\Entity\Organization;
+use Wibbo\Repository\IncidentRepository;
 use Wibbo\Repository\OrganizationRepository;
 
 class AdminController
@@ -31,6 +33,12 @@ class AdminController
             $organizationRepository = new OrganizationRepository($this->app['db']);
             $organizationRepository->deleteById($organizationId);
             return "Organization deleted.";
+        });
+
+        $controller->post('/organizations/{organizationId}/incidents', function($organizationId, Request $request) {
+            $incidentRepository = new IncidentRepository($this->app['db']);
+            $incidentRepository->add(new Incident($organizationId, $request->request->get('description')));
+            return "Incident added.";
         });
 
         return $controller;
