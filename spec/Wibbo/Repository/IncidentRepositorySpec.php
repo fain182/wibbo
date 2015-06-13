@@ -14,7 +14,7 @@ class IncidentRepositorySpec extends ObjectBehavior
     {
         $db->insert("incidents", Argument::any())->willReturn(1);
         $db->fetchAll(Argument::any(), [12])
-          ->willReturn([['description'=>'abc', 'start'=>'2015-06-13 12:22:21', 'organization_id'=>12 ]]);
+          ->willReturn([['id'=>2, 'description'=>'abc', 'start'=>'2015-06-13 12:22:21', 'organization_id'=>12 ]]);
         $this->beConstructedWith($db);
     }
 
@@ -27,6 +27,11 @@ class IncidentRepositorySpec extends ObjectBehavior
     {
         $incident = new Incident(12, 'a description');
         $this->add($incident)->shouldReturn(true);
+    }
+
+    function it_can_update_an_incident()
+    {
+        $this->update(12, ['description'=>'abc'])->shouldReturn(true);
     }
 
     function it_can_retrieve_all_incident_active_now()

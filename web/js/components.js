@@ -152,7 +152,21 @@ var IncidentControl = React.createClass({
             .done(function() {
                 component.fetchCurrentIncidents();
             }).fail(function() {
-                alert("Oops, something went wrong...");
+                alert("Cannot add an incident");
+            });
+    },
+    onIncidentEnd: function(event) {
+        var component = this;
+        $.ajax(
+            {
+                url: "/admin/organizations/"+this.props.organizationId+"/incidents/"+this.state.currentIncidents[0].id,
+                type: 'PATCH',
+                data: { finish: new Date().toISOString() }
+            })
+            .done(function() {
+                component.fetchCurrentIncidents();
+            }).fail(function() {
+                alert("Cannot close an incident");
             });
     },
     render: function() {
@@ -161,7 +175,7 @@ var IncidentControl = React.createClass({
             {
                 this.state.currentIncidents.length > 0
                 ?
-                <span>Incident in progress</span>
+                <button onClick={this.onIncidentEnd} className="btn btn-success">Incident closed</button>
                 :
                 <form onSubmit={this.onIncidentStart} className="form-inline">
                     <input ref="description" className="form-control" type="text" placeholder="Incident description"/>

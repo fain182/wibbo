@@ -41,6 +41,12 @@ class AdminController
             return "Incident added.";
         });
 
+        $controller->patch('/organizations/{organizationId}/incidents/{incidentId}', function($organizationId, $incidentId, Request $request) {
+            $incidentRepository = new IncidentRepository($this->app['db']);
+            $incidentRepository->update($incidentId, $request->request->all());
+            return "Incident updated.";
+        });
+
         return $controller;
     }
 

@@ -23,12 +23,18 @@ class IncidentRepository
 
     public function getAllActiveNow($organizationId)
     {
-        $rows = $this->db->fetchAll('SELECT * FROM incidents where organization_id = ? and "end" is null', [$organizationId]);
+        $rows = $this->db->fetchAll('SELECT * FROM incidents where organization_id = ? and finish is null', [$organizationId]);
         $organizations = array_map(
           function($row) { return Incident::fromRow($row); },
           $rows
         );
         return $organizations;
-
     }
+
+    public function update($incidentId, $fields)
+    {
+        $updatedRows = $this->db->update('incidents', $fields, ['id'=>$incidentId]);
+        return $updatedRows == 1;
+    }
+
 }
