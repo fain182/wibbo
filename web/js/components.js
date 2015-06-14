@@ -51,24 +51,19 @@ var Status = React.createClass({
         });
     },
     render: function() {
-        return (
-            <span>
-            {
-                this.state.currentIncidents.length > 0
-                    ?
-                    <span>
-                        Average incident duration: {this.state.stats.averageIncidentDuration} minutes.<br />
-                        <span className="label label-warning">
-                            <MinutesAgo date={new Date(this.state.currentIncidents[0].start*1000)} />
-                            :&nbsp;
-                            {this.state.currentIncidents[0].description}
-                        </span>
+        if (this.state.currentIncidents.length > 0) {
+            return(
+                <span>
+                    Average incident duration: {this.state.stats.averageIncidentDuration} minutes.<br />
+                    <span className="label label-warning">
+                        <TimeAgo date={new Date(this.state.currentIncidents[0].start*1000)} />
+                        :&nbsp;
+                                {this.state.currentIncidents[0].description}
                     </span>
-                    :
-                    <span className="label label-success">Everything is fine</span>
-            }
-            </span>
-        );
+                </span>);
+        } else {
+            return (<span className="label label-success">Everything is fine</span>);
+        }
     }
 });
 
@@ -77,22 +72,22 @@ var Organization = React.createClass({
         this.props.onDelete(this.props.id);
     },
     render: function() {
+        var content = '';
+        if (this.props.readOnly == "true") {
+            content = <Status id={this.props.id} />;
+        } else {
+            content =
+                <span>
+                    <button onClick={this.onRemove} className="btn btn-default pull-right">
+                        Remove
+                    </button>
+                    <IncidentControl organizationId={this.props.id} />
+                </span>;
+        }
         return (
             <div className="well">
                 <h4>{this.props.name}</h4>
-                {
-                    this.props.readOnly == "true"
-                        ?
-                        <span>
-                        <button onClick={this.onRemove} className="btn btn-default pull-right">
-                            Remove
-                        </button>
-                        <IncidentControl organizationId={this.props.id} />
-                        </span>
-                        :
-                        <Status id={this.props.id} />
-                }
-
+                {content}
             </div>
         );
     }
@@ -162,14 +157,13 @@ var OrganizationBox = React.createClass({
             });
     },
     render: function () {
+        var form = <AddOrganizationForm onFormSubmit={this.handleSubmit} message={this.state.message}/>;
+        if (this.props.readOnly == "true") {
+            form = null;
+        }
         return (
             <span>
-                {
-                    this.props.readOnly == "true"
-                    ? <AddOrganizationForm onFormSubmit={this.handleSubmit} message={this.state.message}/>
-                    : null
-                }
-
+                {form}
                 <OrganizationList readOnly={this.props.readOnly} onDelete={this.handleDelete} data={this.state.organizations} />
             </span>
         )
@@ -241,7 +235,7 @@ var IncidentControl = React.createClass({
     }
 });
 
-var MinutesAgo = React.createClass({
+var TimeAgo = React.createClass({
     timeSince: function (date) {
         var seconds = Math.floor((new Date() - date) / 1000);
 
