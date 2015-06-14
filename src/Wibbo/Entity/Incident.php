@@ -24,7 +24,8 @@ class Incident
 
     public static function fromRow($row)
     {
-        return new Incident($row['organization_id'], $row['description'], new \DateTime($row['start']), $row['id']);
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $row['start'], new \DateTimeZone("UTC"));
+        return new Incident($row['organization_id'], $row['description'], $date, $row['id']);
     }
 
     public function getDescription()
