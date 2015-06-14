@@ -17,28 +17,8 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
   )
 ));
 
-$defaultDbConfiguration = array(
-  'driver'    => 'pdo_pgsql',
-  'host'      => 'localhost',
-  'dbname'    => 'wibbo',
-  'user'      => 'local',
-  'password'  => 'local',
-  'charset'   => 'utf8',
-);
-
-$dbUrl = getenv("DATABASE_URL");
-
-$isOnHeroku = !empty($dbUrl);
-
-if ($isOnHeroku) {
-    $dbUrl = parse_url($dbUrl);
-    $defaultDbConfiguration['host'] = $dbUrl['host'];
-    $defaultDbConfiguration['user'] = $dbUrl['user'];
-    $defaultDbConfiguration['password'] = $dbUrl['pass'];
-    $defaultDbConfiguration['dbname'] = substr($dbUrl['path'],1);
-}
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-  'db.options' => $defaultDbConfiguration,
+  'db.options' => \Wibbo\Db\DbConfiguration::generate(getenv("DATABASE_URL")),
 ));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
