@@ -10,6 +10,8 @@ use Wibbo\Repository\OrganizationRepository;
 
 class AdminController
 {
+    private $app;
+
     public function __construct($app)
     {
         $this->app = $app;

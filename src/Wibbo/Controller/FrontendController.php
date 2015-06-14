@@ -5,6 +5,9 @@ namespace Wibbo\Controller;
 
 
 class FrontendController {
+
+    private $app;
+
     public function __construct($app)
     {
         $this->app = $app;

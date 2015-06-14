@@ -8,6 +8,9 @@ use Wibbo\Repository\OrganizationRepository;
 
 
 class OrganizationsController {
+
+    private $app;
+
     public function __construct($app)
     {
         $this->app = $app;
