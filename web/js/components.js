@@ -43,7 +43,11 @@ var Status = React.createClass({
             {
                 this.state.currentIncidents.length > 0
                     ?
-                    <span className="label label-warning">{this.state.currentIncidents[0].description}</span>
+                    <span className="label label-warning">
+                        <MinutesAgo date={new Date(this.state.currentIncidents[0].start*1000)} />
+                        <span style={{marginRight: "10px"}}>:</span>
+                        {this.state.currentIncidents[0].description}
+                    </span>
                     :
                     <span className="label label-success">Everything is fine</span>
             }
@@ -217,6 +221,42 @@ var IncidentControl = React.createClass({
                     <input type="submit" className="btn btn-danger" value="Start incident" />
                 </form>
             }
+            </span>
+        );
+    }
+});
+
+var MinutesAgo = React.createClass({
+    timeSince: function (date) {
+        var seconds = Math.floor((new Date() - date) / 1000);
+
+        var interval = Math.floor(seconds / 31536000);
+
+        if (interval > 1) {
+            return interval + " years";
+        }
+        interval = Math.floor(seconds / 2592000);
+        if (interval > 1) {
+            return interval + " months";
+        }
+        interval = Math.floor(seconds / 86400);
+        if (interval > 1) {
+            return interval + " days";
+        }
+        interval = Math.floor(seconds / 3600);
+        if (interval > 1) {
+            return interval + " hours";
+        }
+        interval = Math.floor(seconds / 60);
+        if (interval > 1) {
+            return interval + " minutes";
+        }
+        return Math.floor(seconds) + " seconds";
+    },
+    render: function() {
+        return (
+            <span>
+                {this.timeSince(this.props.date)} ago
             </span>
         );
     }

@@ -15,9 +15,9 @@ class Incident
         $this->organizationId = $organizationId;
         $this->description = $description;
         if ($start){
-            $this->start = $start;
+            $this->start = $start->getTimestamp();
         } else {
-            $this->start = new \DateTime();
+            $this->start = time();
         }
         $this->id = $id;
     }
@@ -34,7 +34,7 @@ class Incident
 
     public function getStartTime()
     {
-        return $this->start;
+        return new \DateTime("@$this->start");
     }
 
     public function getOrganizationId()
