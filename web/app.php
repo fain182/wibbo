@@ -48,11 +48,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 $app->register(new Silex\Provider\SerializerServiceProvider());
 
 
-$app->get('/', function () use ($app) {
-    return 'wibbo';
-});
-
-
 $organizationController = new \Wibbo\Controller\OrganizationsController($app);
 $app->mount('/organizations', $organizationController->build());
 
