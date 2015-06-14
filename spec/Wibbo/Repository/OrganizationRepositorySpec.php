@@ -12,7 +12,7 @@ class OrganizationRepositorySpec extends ObjectBehavior
     function let( Connection $db)
     {
         $db->insert("organizations", ["name" => "abc"])->willReturn(1);
-        $db->fetchAll('SELECT * FROM organizations')->willReturn([ ['id'=>1, 'name'=>'abc'] ]);
+        $db->fetchAll(Argument::any())->willReturn([ ['id'=>1, 'name'=>'abc'] ]);
         $db->delete("organizations", ["id" => 1])->willReturn(1);
 
         $this->beConstructedWith($db);
