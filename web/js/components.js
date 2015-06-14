@@ -9,7 +9,6 @@ var AddOrganizationForm = React.createClass({
         return (
             <form className="form-inline commentForm" onSubmit={this.handleSubmit}>
                 <h1>Add an Organization</h1>
-                <h3 ref="message">{this.props.message} </h3>
                 Organization name: <input className="form-control" ref="name"/>
                 <input type="submit" value="Add" className="btn btn-primary" />
             </form>
@@ -123,7 +122,7 @@ var OrganizationList = React.createClass({
 
 var OrganizationBox = React.createClass({
     getInitialState: function() {
-        return {message: '', organizations: []};
+        return {organizations: []};
     },
     componentDidMount: function() {
         this.fetchOrganizations();
@@ -134,7 +133,7 @@ var OrganizationBox = React.createClass({
             dataType: 'json',
             cache: false,
             success: function(data) {
-                this.setState({message: this.state.message, organizations: data});
+                this.setState({organizations: data});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(status, err.toString());
@@ -148,10 +147,9 @@ var OrganizationBox = React.createClass({
         var component = this;
         $.post( "/admin/organizations", {'name': name})
             .done(function() {
-                component.setState({message: 'Organization added'});
                 component.fetchOrganizations();
             }).fail(function() {
-                component.setState({message: 'Error'});
+                alert("Cannot add a new organization");
             });
     },
     handleDelete: function(id) {
