@@ -22,7 +22,7 @@ class OrganizationRepository
 
     public function getAll()
     {
-        $rows = $this->db->fetchAll('SELECT * FROM organizations');
+        $rows = $this->db->fetchAll('SELECT * FROM organizations ORDER BY id DESC');
         $organizations = array_map(
           function($row) { return Organization::fromRow($row); },
           $rows
