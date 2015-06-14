@@ -8,6 +8,8 @@ class IncidentRepository
 {
     private $db;
 
+    const AVERAGE_INCIDENT_DURATION_DEFAULT = "15";
+
     public function __construct($db)
     {
         $this->db = $db;
@@ -45,6 +47,9 @@ class IncidentRepository
            FROM incidents
            WHERE organization_id = ? and finish is not null
            GROUP BY organization_id', [$organizationId]);
+        if (count($rows) == 0) {
+            return self::AVERAGE_INCIDENT_DURATION_DEFAULT;
+        }
         return $rows[0]['avg_minutes_duration'];
     }
 
