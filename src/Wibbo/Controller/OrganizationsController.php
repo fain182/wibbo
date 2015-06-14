@@ -31,7 +31,7 @@ class OrganizationsController {
 
         $controller->get('/{organizationId}/stats', function($organizationId) {
             $incidentRepository = new IncidentRepository($this->app['db']);
-            $average = $incidentRepository->getAverageIncidentDuration($organizationId);
+            $average = $incidentRepository->getAverageIncidentDurationInMinutes($organizationId);
             $response = ['averageIncidentDuration' => $average];
             return $this->app->json($response);
         });

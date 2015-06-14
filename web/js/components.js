@@ -58,12 +58,12 @@ var Status = React.createClass({
                 this.state.currentIncidents.length > 0
                     ?
                     <span>
+                        Average incident duration: {this.state.stats.averageIncidentDuration} minutes.<br />
                         <span className="label label-warning">
                             <MinutesAgo date={new Date(this.state.currentIncidents[0].start*1000)} />
                             :&nbsp;
                             {this.state.currentIncidents[0].description}
                         </span>
-                        &nbsp; Average downtime: {this.state.stats.averageIncidentDuration}
                     </span>
                     :
                     <span className="label label-success">Everything is fine</span>

@@ -38,9 +38,14 @@ class IncidentRepository
     }
 
 
-    public function getAverageIncidentDuration($organizationId)
+    public function getAverageIncidentDurationInMinutes($organizationId)
     {
-        $rows = $this->db->fetchAll('SELECT avg(finish - start) as avg_duration FROM incidents where organization_id = ? and finish is not null group by organization_id', [$organizationId]);
-        return $rows[0]['avg_duration'];
+        $rows = $this->db->fetchAll(
+          'SELECT FLOOR(EXTRACT(epoch FROM avg(finish - start))/60) as avg_minutes_duration
+           FROM incidents
+           WHERE organization_id = ? and finish is not null
+           GROUP BY organization_id', [$organizationId]);
+        return $rows[0]['avg_minutes_duration'];
     }
+
 }
