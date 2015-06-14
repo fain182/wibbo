@@ -79,7 +79,7 @@ var Organization = React.createClass({
     render: function() {
         return (
             <div className="well">
-                <h4>{this.props.name} <small>id:{this.props.id}</small></h4>
+                <h4>{this.props.name}</h4>
                 {
                     this.props.readOnly == "true"
                         ?
