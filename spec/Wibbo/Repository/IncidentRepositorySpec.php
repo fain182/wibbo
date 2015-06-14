@@ -15,6 +15,8 @@ class IncidentRepositorySpec extends ObjectBehavior
         $db->insert("incidents", Argument::any())->willReturn(1);
         $db->fetchAll(Argument::any(), [12])
           ->willReturn([['id'=>2, 'description'=>'abc', 'start'=>'2015-06-13 12:22:21', 'organization_id'=>12 ]]);
+        $db->update("incidents", ["description" => "abc"], ["id" => 12])->willReturn(1);
+
         $this->beConstructedWith($db);
     }
 
