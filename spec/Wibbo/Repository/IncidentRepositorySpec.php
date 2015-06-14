@@ -41,4 +41,9 @@ class IncidentRepositorySpec extends ObjectBehavior
         $this->getAllActiveNow(12)->shouldHaveCount(1);
     }
 
+    function it_can_retrieve_average_incident_duration()
+    {
+        $this->getAverageIncidentDuration(12)->shouldBe(3);
+    }
+
 }

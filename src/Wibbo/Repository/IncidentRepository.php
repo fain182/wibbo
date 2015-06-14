@@ -24,11 +24,11 @@ class IncidentRepository
     public function getAllActiveNow($organizationId)
     {
         $rows = $this->db->fetchAll('SELECT * FROM incidents where organization_id = ? and finish is null', [$organizationId]);
-        $organizations = array_map(
+        $incidents = array_map(
           function($row) { return Incident::fromRow($row); },
           $rows
         );
-        return $organizations;
+        return $incidents;
     }
 
     public function update($incidentId, $fields)
@@ -37,4 +37,10 @@ class IncidentRepository
         return $updatedRows == 1;
     }
 
+
+    public function getAverageIncidentDuration($organizationId)
+    {
+        $rows = $this->db->fetchAll('SELECT avg(finish - start) as avg_duration FROM incidents where organization_id = ? and finish is not null group by organization_id', [$organizationId]);
+        return $rows[0]['avg_duration'];
+    }
 }

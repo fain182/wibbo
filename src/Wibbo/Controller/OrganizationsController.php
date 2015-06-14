@@ -29,6 +29,13 @@ class OrganizationsController {
             return $this->app->json($incidents);
         });
 
+        $controller->get('/{organizationId}/stats', function($organizationId) {
+            $incidentRepository = new IncidentRepository($this->app['db']);
+            $average = $incidentRepository->getAverageIncidentDuration($organizationId);
+            $response = ['averageIncidentDuration' => $average];
+            return $this->app->json($response);
+        });
+
         return $controller;
     }
 }

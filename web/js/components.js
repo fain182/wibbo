@@ -19,10 +19,11 @@ var AddOrganizationForm = React.createClass({
 
 var Status = React.createClass({
     getInitialState: function() {
-        return {currentIncidents: []};
+        return {currentIncidents: [], stats: {}};
     },
     componentDidMount: function() {
         this.fetchCurrentIncidents();
+        this.fetchStats();
     },
     fetchCurrentIncidents: function() {
         $.ajax({
@@ -37,16 +38,32 @@ var Status = React.createClass({
             }.bind(this)
         });
     },
+    fetchStats: function() {
+        $.ajax({
+            url: '/organizations/'+this.props.id+'/stats',
+            dataType: 'json',
+            cache: false,
+            success: function(data) {
+                this.setState({stats: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
+    },
     render: function() {
         return (
             <span>
             {
                 this.state.currentIncidents.length > 0
                     ?
-                    <span className="label label-warning">
-                        <MinutesAgo date={new Date(this.state.currentIncidents[0].start*1000)} />
-                        <span style={{marginRight: "10px"}}>:</span>
-                        {this.state.currentIncidents[0].description}
+                    <span>
+                        <span className="label label-warning">
+                            <MinutesAgo date={new Date(this.state.currentIncidents[0].start*1000)} />
+                            :&nbsp;
+                            {this.state.currentIncidents[0].description}
+                        </span>
+                        &nbsp; Average downtime: {this.state.stats.averageIncidentDuration}
                     </span>
                     :
                     <span className="label label-success">Everything is fine</span>
