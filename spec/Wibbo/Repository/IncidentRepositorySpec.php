@@ -15,6 +15,8 @@ class IncidentRepositorySpec extends ObjectBehavior
         $db->insert("incidents", Argument::any())->willReturn(1);
         $db->fetchAll(Argument::any(), [12])
           ->willReturn([['id'=>2, 'description'=>'abc', 'start'=>'2015-06-13 12:22:21', 'organization_id'=>12 ]]);
+        $db->fetchAll(Argument::any(), [13])
+          ->willReturn([['avg_duration'=>'01:18:41.9575']]);
         $db->update("incidents", ["description" => "abc"], ["id" => 12])->willReturn(1);
 
         $this->beConstructedWith($db);
@@ -43,7 +45,7 @@ class IncidentRepositorySpec extends ObjectBehavior
 
     function it_can_retrieve_average_incident_duration()
     {
-        $this->getAverageIncidentDuration(12)->shouldBe(3);
+        $this->getAverageIncidentDuration(13)->shouldBe('01:18:41.9575');
     }
 
 }
