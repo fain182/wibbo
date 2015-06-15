@@ -1,0 +1,5 @@
+default:
+  extensions:
+    Behat\MinkExtension:
+      base_url: http://admin:foo@127.0.0.1:8081/
+      zombie: ~

@@ -9,8 +9,8 @@ var AddOrganizationForm = React.createClass({
         return (
             <form className="form-inline commentForm" onSubmit={this.handleSubmit}>
                 <h1>Add an Organization</h1>
-                Organization name: <input className="form-control" ref="name"/>
-                <input type="submit" value="Add" className="btn btn-primary" />
+                Organization name: <input id="OrganizationName" className="form-control" ref="name"/>
+                <input id="OrganizationAdd" type="submit" value="Add" className="btn btn-primary" />
             </form>
         );
     }
