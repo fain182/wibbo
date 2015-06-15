@@ -7,11 +7,14 @@
     "twig/twig": "~1.18"
   },
   "require-dev": {
-    "phpspec/phpspec": "~2.0"
+    "phpspec/phpspec": "~2.0",
+    "symfony/browser-kit": "~2.7",
+    "symfony/css-selector": "~2.7"
   },
   "autoload": {
     "psr-0": {
-      "": "src/"
+      "": "src/",
+      "Wibbo\\FunctionalTest": "test/"
     }
   }
 }
