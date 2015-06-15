@@ -22,7 +22,7 @@ class AdminController
         $controller = $this->app['controllers_factory'];
 
         $controller->get('/', function () {
-            return $this->app['twig']->render('admin/index.twig');
+            return $this->app['twig']->render('admin.twig');
         });
 
         $controller->post('/organizations', function(Request $request) {

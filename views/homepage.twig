@@ -1,34 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <title>Wibbo</title>
-<body>
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Wibbo</a>
-        </div>
-    </div>
-</nav>
+{% extends "layout.twig" %}
 
-<div class="container">
+{% block title %}
+    Wibbo
+{% endblock %}
 
-    <div id="content"></div>
-
-</div>
-
-
-<script src="//code.jquery.com/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-<script type="text/jsx" src="/js/components.js"></script>
-<script type="text/jsx">
+{% block jsx %}
     React.render(<OrganizationBox readOnly="true" />, document.getElementById('content'));
-</script>
-
-</body>
-</html>
-
+{% endblock %}

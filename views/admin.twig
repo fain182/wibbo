@@ -1,0 +1,9 @@
+{% extends "layout.twig" %}
+
+{% block title %}
+    Wibbo administration
+{% endblock %}
+
+{% block jsx %}
+    React.render(<OrganizationBox readOnly="false" />, document.getElementById('content'));
+{% endblock %}
