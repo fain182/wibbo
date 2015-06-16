@@ -25,7 +25,7 @@ class AdminController
             return $this->app['twig']->render('admin.twig');
         });
 
-        $controller->post('/organizations', function(Request $request) {
+        $controller->post('/organizations/', function(Request $request) {
             $organizationRepository = new OrganizationRepository($this->app['db']);
             $organizationRepository->add(new Organization($request->request->get('name')));
             return "Organization added.";
