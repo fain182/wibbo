@@ -6,24 +6,40 @@ class OrganizationTest extends WibboTestCase {
 
     public function testWithoutOrganizations()
     {
-        $client = $this->createClient();
-        $client->request('GET', '/organizations/');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals([], json_decode($client->getResponse()->getContent()));
+        $this->client->request('GET', '/organizations/');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals([], json_decode($this->client->getResponse()->getContent()));
     }
 
     public function testAddingOrganizations()
     {
-        $client = $this->createClient();
-        $client->request('POST', '/admin/organizations/', ['name'=>'abc'], [], array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => 'foo'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->requestAuthenticated('POST', '/admin/organizations/', ['name' => 'abc']);
 
-        $client->request('GET', '/organizations/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $result = json_decode($client->getResponse()->getContent(), true);
+        $organizations = $this->getAllOrganizations($this->client);
 
-        $this->assertEquals('abc', $result[0]['name']);
+        $this->assertEquals(1, count($organizations));
+        $this->assertEquals('abc', $organizations[0]['name']);
+    }
+
+    public function testDeleteOrganizations()
+    {
+        $this->requestAuthenticated('POST', '/admin/organizations/', ['name' => 'abc']);
+
+        $organizations = $this->getAllOrganizations($this->client);
+        $id = $organizations[0]['id'];
+        $this->requestAuthenticated('DELETE', '/admin/organizations/'.$id, ['name' => 'abc']);
+
+        $organizations = $this->getAllOrganizations($this->client);
+        $this->assertEquals(0, count($organizations));
+
+    }
+
+    private function getAllOrganizations()
+    {
+        $this->client->request('GET', '/organizations/');
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+
+        return $result;
     }
 
 }
