@@ -3,7 +3,9 @@
 
 namespace Wibbo\FunctionalTest;
 
-class IncidentTest extends WibboTestCase {
+class IncidentTest extends WibboTestCase
+{
+    private $organizationId;
 
     public function setUp()
     {
