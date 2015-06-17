@@ -20,7 +20,7 @@ class OrganizationsController {
     {
         $controller = $this->app['controllers_factory'];
 
-        $controller->get('/', function(Request $request) {
+        $controller->get('/', function() {
             $organizationRepository = new OrganizationRepository($this->app['db']);
             $organizations = $organizationRepository->getAll();
             return $this->app->json($organizations);

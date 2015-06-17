@@ -18,7 +18,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 ));
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-  'db.options' => \Wibbo\Db\DbConfiguration::generate(getenv("DATABASE_URL")),
+  'db.options' => Wibbo\Db\DbConfiguration::generate(getenv("DATABASE_URL")),
 ));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(

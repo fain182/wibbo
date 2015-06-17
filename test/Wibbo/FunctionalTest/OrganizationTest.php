@@ -13,7 +13,7 @@ class OrganizationTest extends WibboTestCase {
 
     public function testAddingOrganizations()
     {
-        $this->requestAuthenticated('POST', '/admin/organizations/', ['name' => 'abc']);
+        $this->requestAuthenticated('POST', '/admin/organizations', ['name' => 'abc']);
 
         $organizations = $this->getAllOrganizations($this->client);
 
@@ -23,7 +23,7 @@ class OrganizationTest extends WibboTestCase {
 
     public function testDeleteOrganizations()
     {
-        $this->requestAuthenticated('POST', '/admin/organizations/', ['name' => 'abc']);
+        $this->requestAuthenticated('POST', '/admin/organizations', ['name' => 'abc']);
 
         $organizations = $this->getAllOrganizations($this->client);
         $id = $organizations[0]['id'];
@@ -32,14 +32,6 @@ class OrganizationTest extends WibboTestCase {
         $organizations = $this->getAllOrganizations($this->client);
         $this->assertEquals(0, count($organizations));
 
-    }
-
-    private function getAllOrganizations()
-    {
-        $this->client->request('GET', '/organizations/');
-        $result = json_decode($this->client->getResponse()->getContent(), true);
-
-        return $result;
     }
 
 }

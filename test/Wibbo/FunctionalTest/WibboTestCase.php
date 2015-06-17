@@ -34,6 +34,15 @@ class WibboTestCase extends WebTestCase {
           [],
           array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => 'foo')
         );
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
+
+    protected function getAllOrganizations()
+    {
+        $this->client->request('GET', '/organizations/');
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+
+        return $result;
     }
 
 }
